@@ -4,6 +4,10 @@
   "description": "Full Stack Open Part 3 Phonebook Backend",
   "main": "index.js",
   "scripts": {
+    "build:ui": "rm -rf dist && cd ../notes-frontend/ && npm run build && cp -r dist ../backend",
+    "deploy": "fly deploy",
+    "deploy:full": "npm run build:ui && npm run deploy",
+    "logs:prod": "fly logs",
     "start": "node index.js",
     "dev": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -19,6 +23,7 @@
   },
   "homepage": "https://github.com/derekjwilliams/full-stack-open_phonebook-backend#readme",
   "dependencies": {
+    "cors": "^2.8.5",
     "express": "^4.18.2",
     "morgan": "^1.10.0"
   },
