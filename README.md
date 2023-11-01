@@ -2,7 +2,7 @@
 
 See https://fullstackopen.com/en/part3/deploying_app_to_internet#exercises-3-9-3-11
 
-## Deployed Applicaiton 
+## Deployed Application 
 
 Persons application can be found here: https://my-persons-app-djw.fly.dev/
 
