@@ -1,5 +1,5 @@
 {
-  "name": "full-stack-open_phonebook-backend",
+  "name": "phonebook-backend",
   "version": "0.0.1",
   "description": "Full Stack Open Part 3 Phonebook Backend",
   "main": "index.js",
@@ -12,20 +12,11 @@
     "dev": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+ssh://git@github.com/derekjwilliams/full-stack-open_phonebook-backend.git"
-  },
   "author": "Derek Jason Williams",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/derekjwilliams/full-stack-open_phonebook-backend/issues"
-  },
-  "homepage": "https://github.com/derekjwilliams/full-stack-open_phonebook-backend#readme",
   "dependencies": {
     "cors": "^2.8.5",
-    "express": "^4.18.2",
-    "morgan": "^1.10.0"
+    "express": "^4.18.2"
   },
   "devDependencies": {
     "@flydotio/dockerfile": "^0.4.10",
