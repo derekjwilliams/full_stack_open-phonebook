@@ -1,0 +1,3 @@
+GET http://localhost:3001/api/persons/an_invalid_id
+# Format of the does not match the expected by the mongo db
+# Should get a 400 response

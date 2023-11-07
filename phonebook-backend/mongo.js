@@ -42,7 +42,9 @@ const addPerson = (name, phoneNumber) => {
   })
 
   person.save().then((person) => {
-    console.log(`added ${person.name} number ${person.phoneNumber} to phonebook`)
+    console.log(
+      `added ${person.name} number ${person.phoneNumber} to phonebook`
+    )
     mongoose.connection.close()
   })
 }

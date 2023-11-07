@@ -28,9 +28,9 @@ const App = () => {
   /**
    * returns the next id, finds the largest id and adds 1 to get the next id
    */
-  const getNextId =() => {
-    return persons.reduce((a,b)=> (a.id > b.id)? a : b).id + 1
-  };
+  // const getNextId =() => {
+  //   return persons.reduce((a,b)=> (a.id > b.id)? a : b).id + 1
+  // };
 
   const handleAddPerson = (event) => {
     event.preventDefault();
@@ -38,8 +38,7 @@ const App = () => {
     if (person === undefined) {
       const newPerson = {
         name: newName,
-        number: newPhoneNumber,
-        id: getNextId()
+        phoneNumber: newPhoneNumber
       };
 
       personService.create(newPerson).then((person) => {
@@ -67,7 +66,7 @@ const App = () => {
     else if (window.confirm(`${person.name} is already added to the phonebook, replace the old number with a new one?`)) {
       const changedPerson = {
         name: person.name,
-        number: newPhoneNumber,
+        phoneNumber: newPhoneNumber,
         id: person.id
       };
       personService.update(person.id, changedPerson).then((personResult) => {

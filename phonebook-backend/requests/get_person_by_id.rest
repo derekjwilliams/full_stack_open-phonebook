@@ -1,0 +1,3 @@
+GET http://localhost:3001/api/persons/65481727b74db33deb1979c4
+# Replace id (65481727b74db33deb1979c4) above with an existing id from your database
+# Should get a 200 response
