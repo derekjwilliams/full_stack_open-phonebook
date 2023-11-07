@@ -1,4 +1,4 @@
-DELETE http://localhost:3001/api/persons/654a5795a9ecbd2985aa6c24
+DELETE http://localhost:3001/api/persons/654918927ef3e1ccf97db13f
 
 # Replace id (654918927ef3e1ccf97db13f) above with an existing id from your database
 # Should get a 204 response
