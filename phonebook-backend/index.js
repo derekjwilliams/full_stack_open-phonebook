@@ -51,7 +51,6 @@ app.get('/api/persons/:id', (request, response, next) => {
 app.post('/api/persons', (request, response, next) => {
   const body = request.body
 
-  //TODO move error handling to validation middleware
   if (body.name === undefined && body.phoneNumber === undefined) {
     return response.status(400).json({ error: 'name and phoneNumber missing' })
   }
@@ -78,7 +77,6 @@ app.post('/api/persons', (request, response, next) => {
 app.put('/api/persons/:id', (request, response, next) => {
   const body = request.body
 
-  //TODO move error handling to validation middleware
   if (body.name === undefined && body.phoneNumber === undefined) {
     return response.status(400).json({ error: 'name and phoneNumber missing' })
   }
@@ -89,12 +87,9 @@ app.put('/api/persons/:id', (request, response, next) => {
     return response.status(400).json({ error: 'phoneNumber missing' })
   }
 
-  const person = new Person({
-    name: body.name,
-    phoneNumber: body.phoneNumber,
-  })
+  const update = { phoneNumber: body.phoneNumber }
 
-  Note.findByIdAndUpdate(request.params.id, person, { new: true })
+  Person.findOneAndUpdate({_id: request.params.id}, update, { new: true })
     .then((updatedPerson) => {
       response.json(updatedPerson)
     })
