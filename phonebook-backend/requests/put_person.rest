@@ -1,4 +1,4 @@
-PUT http://localhost:3001/api/persons/65481727b74db33deb1979c4
+PUT http://localhost:3001/api/persons/654a644423324170cf5ead4c
 content-type: application/json
 
-{"name": "Ringo", "phoneNumber": "040-243563"}
+{"name": "Ringo", "phoneNumber": "22"}

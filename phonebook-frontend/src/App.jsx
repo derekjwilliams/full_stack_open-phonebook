@@ -13,7 +13,7 @@ const App = () => {
   const [notificationMessage, setNotificationMessage] = useState(null)
   const [notificationKind, setNotificationKind] = useState('notification')
 
-  const notficationDuration = 5000; //ms
+  const notficationDuration = 5000; //milliseconds
   useEffect(() => {
     personService.getAll().then((persons) => {
       setPersons(persons);
@@ -24,82 +24,60 @@ const App = () => {
     setNewName('');
     setNewPhoneNumber('');
   };
-  
-  /**
-   * returns the next id, finds the largest id and adds 1 to get the next id
-   */
-  // const getNextId =() => {
-  //   return persons.reduce((a,b)=> (a.id > b.id)? a : b).id + 1
-  // };
 
   const handleAddPerson = (event) => {
     event.preventDefault();
-    const person = persons.find((person) => person.name === newName)
-    if (person === undefined) {
-      const newPerson = {
-        name: newName,
-        phoneNumber: newPhoneNumber
-      };
+    const newPerson = {
+      name: newName,
+      phoneNumber: newPhoneNumber
+    };
+    personService.create(newPerson).then((person) => {
+      setPersons(persons.concat(person))
+      setNotificationKind('success')
+      setNotificationMessage(
+        `Added ${person.name}`
+      )
+      setTimeout(() => {
+        setNotificationMessage(null)
+      }, notficationDuration)
+      clearInputs('')
+    })
+      .catch(error => {// check for 422, if that is the case then get the resource by name and use the id send PUT to the existing resource
+        if (error.response.status === 422) {
+          if (window.confirm(`${newName} is already added to the phonebook, replace the old number with a new one?`)) {
+              const changedPerson = {
+                name: newName,
+                phoneNumber: newPhoneNumber
+              };
+              
+              personService.updateUsingLocation(error.response.headers.location, changedPerson).then((personResult) => {
+                setPersons(persons.map(person => person.id !== personResult.id ? person : personResult))
+                setNotificationKind('success')
+                setNotificationMessage(
+                  `Updated ${changedPerson.name}`
+                )
+                setTimeout(() => {
+                  setNotificationMessage(null)
+                }, notficationDuration)
+                clearInputs('')
+              })
+          } else {
+            alert(`${newName} is already in phonebook`);
+          }
+        }
+        else {
+          setNotificationKind('error')
+          setNotificationMessage(
+            `${error.response.data.error}`
+          )
+          setTimeout(() => {
+            setNotificationMessage(null)
+          }, notficationDuration)
+        }
+      })
+  }
 
-      personService.create(newPerson).then((person) => {
-        setPersons(persons.concat(person))
-        setNotificationKind('success')
-        setNotificationMessage(
-          `Added ${person.name}`
-        )
-        setTimeout(() => {
-          setNotificationMessage(null)
-        }, notficationDuration)
-        clearInputs('')
-      })
-      .catch(error => {
-        setNotificationKind('error')
-        setNotificationMessage(
-          `The person '${person.name}' could not be added`
-        )
-        setTimeout(() => {
-          setNotificationMessage(null)
-        }, notficationDuration)
-      })
-    }
-    //Information of Edger Dijkstra has already been removed from server
-    else if (window.confirm(`${person.name} is already added to the phonebook, replace the old number with a new one?`)) {
-      const changedPerson = {
-        name: person.name,
-        phoneNumber: newPhoneNumber,
-        id: person.id
-      };
-      personService.update(person.id, changedPerson).then((personResult) => {
-        setPersons(persons.map(p => p.id !== person.id ? p : personResult))
-        setNotificationKind('success')
-        setNotificationMessage(
-          `Updated ${person.name}`
-        )
-        setTimeout(() => {
-          setNotificationMessage(null)
-        }, notficationDuration)
-        clearInputs('')
-      })
-      .catch(error => {
-        console.error('status', error.response.status);
-        const message = error.response.status === 404 ?
-        `Information of '${person.name}' has already been removed from server` :
-        `Error updating '${person.name}' error code from server is ${error.response.status}`
-        setNotificationKind('error')
-        setNotificationMessage(
-          message
-        )
-        setTimeout(() => {
-          setNotificationMessage(null)
-        }, notficationDuration)
-      })
-    }
-    else {
-      alert(`${newName} is already in phonebook`);
-    }
-  };
-
-  const handleDeletePerson=(person) => {
+  const handleDeletePerson = (person) => {
     if (window.confirm(`Do you really want to delete ${person.name}?`)) {
       const id = person.id
       personService.deleteById(id).then(() => {
@@ -112,15 +90,15 @@ const App = () => {
           setNotificationMessage(null)
         }, notficationDuration)
       })
-      .catch(error => {
-        setNotificationKind('error')
-        setNotificationMessage(
-          `'${person.name}' was not found on the server`
-        )
-        setTimeout(() => {
-          setNotificationMessage(null)
-        }, notficationDuration)
-      })
+        .catch(error => {
+          setNotificationKind('error')
+          setNotificationMessage(
+            `'${person.name}' was not found on the server`
+          )
+          setTimeout(() => {
+            setNotificationMessage(null)
+          }, notficationDuration)
+        })
     }
   };
 
@@ -139,7 +117,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      <Notification message={notificationMessage} kind={notificationKind}/>
+      <Notification message={notificationMessage} kind={notificationKind} />
       <Filter
         nameFilter={nameFilter}
         handleNameFilterChange={handleNameFilterChange}
@@ -153,9 +131,9 @@ const App = () => {
         handlePhoneNumberChange={handlePhoneNumberChange}
       />
       <h3>Numbers</h3>
-      <Persons 
-        nameFilter={nameFilter} 
-        persons={persons} 
+      <Persons
+        nameFilter={nameFilter}
+        persons={persons}
         handleDeletePerson={handleDeletePerson}
       />
     </div>

@@ -2,12 +2,10 @@ const mongoose = require('mongoose')
 
 mongoose.set('strictQuery', false)
 
-let url =
+const url =
   process.env.MONGODB_URI_PREFIX +
   process.env.MONGODB_PASSWORD +
   process.env.MONGODB_URI_SUFFIX
-
-url = 'mongodb+srv://fullstackopenmongo:798eAtLwEjv3GwJS@freestackopencluster.dhyth5u.mongodb.net/phonebookApp?retryWrites=true&w=majority'
 
 console.log(
   'connecting to',
@@ -24,8 +22,18 @@ mongoose
   })
 
   const personSchema = new mongoose.Schema({
-    name: String,
-    phoneNumber: String,
+    name: {
+      type: String,
+      required: true,
+      minLength: 3,
+      unique: true,
+      dropDups: true
+    },
+    phoneNumber: {
+      type: String,
+      required: true,
+      minLength: 3
+    }
   })
 
   personSchema.set('toJSON', {
