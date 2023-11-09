@@ -3,7 +3,7 @@ const express = require('express')
 var morgan = require('morgan')
 const Person = require('./models/person')
 const cors = require('cors')
-const { MongoError, MongoServerError } = require('mongodb')
+const { MongoServerError } = require('mongodb')
 const { Error } = require('mongoose')
 
 const app = express()

@@ -12,13 +12,13 @@ if (process.argv.length < 3) {
 }
 
 if (process.argv.length > 5) {
-  console.log(`Error, too many arguments`)
+  console.log('Error, too many arguments')
   logUsage()
   process.exit(1)
 }
 
 if (process.argv.length === 4) {
-  console.log(`Error, both name and number are required`)
+  console.log('Error, both name and number are required')
   logUsage()
   process.exit(1)
 }
